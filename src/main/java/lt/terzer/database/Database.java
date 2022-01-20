@@ -1,8 +1,8 @@
 package lt.terzer.database;
 
 import lt.terzer.database.wrappers.DefaultMapper;
-import oracle.ucp.util.Pair;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.sql.*;
 import java.util.*;
@@ -187,7 +187,7 @@ public class Database<T extends DatabaseSavable> {
         } catch (SQLException e) {
             System.out.println("Could not retrieve data from the database " + e.getMessage());
         }
-        return new Pair<>(connection, results);
+        return Pair.of(connection, results);
     }
 
     public List<T> get(){
@@ -200,16 +200,16 @@ public class Database<T extends DatabaseSavable> {
 
     protected List<T> retrieveData(Pair<Connection, ResultSet> pair){
         List<T> list = new ArrayList<>();
-        if(pair.get2nd() != null){
+        if(pair.getValue() != null){
             try {
-                while (pair.get2nd().next()) {
-                    list.add(defaultMapper.deserialize(pair.get2nd(), clazz));
+                while (pair.getValue().next()) {
+                    list.add(defaultMapper.deserialize(pair.getValue(), clazz));
                 }
             } catch (SQLException e) {
                 System.out.println("Could not retrieve data from the database " + e.getMessage());
             }
             finally {
-                close(pair.get1st());
+                close(pair.getKey());
             }
         }
         return list;
