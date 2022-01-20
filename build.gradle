@@ -8,6 +8,9 @@ apply plugin: 'maven-publish'
 group 'com.github.terzer'
 version '1.0-SNAPSHOT'
 
+sourceCompatibility = 1.8 // java 8
+targetCompatibility = 1.8
+
 repositories {
     mavenCentral()
 }
@@ -36,6 +39,26 @@ artifacts {
     archives javadocJar
 }
 
+// To specify a license in the pom:
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+            }
+        }
+    }
+}
+
+wrapper {
+    gradleVersion = "7.3.3"
+    distributionType = Wrapper.DistributionType.ALL
+}
 
 test {
     useJUnitPlatform()
