@@ -43,6 +43,9 @@ artifacts {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            groupId = 'lt.terzer'
+            artifactId = 'database'
+            version = '1.0-SNAPSHOT'
             pom {
                 licenses {
                     license {
@@ -51,6 +54,7 @@ publishing {
                     }
                 }
             }
+            from components.java
         }
     }
 }
