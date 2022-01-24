@@ -1,12 +1,7 @@
 package lt.terzer.database.wrappers;
 
-import lt.terzer.database.TestClass;
-import lt.terzer.database.annotations.NotSavable;
-
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class DefaultSerializationContext implements SerializationContext {
 

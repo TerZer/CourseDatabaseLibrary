@@ -38,8 +38,10 @@ public class DefaultDeserializationContext implements DeserializationContext {
 
                             final List<Object> newList = new ArrayList<>();
                             String str = (String) rs.getObject(i);
-                            for (String s : str.split(",")) {
-                                registry.getSerializer(typeClass).ifPresent(serializer -> newList.add(serializer.deserialize(s)));
+                            if(!str.isEmpty()) {
+                                for (String s : str.split(",")) {
+                                    registry.getSerializer(typeClass).ifPresent(serializer -> newList.add(serializer.deserialize(s)));
+                                }
                             }
                             field.set(obj, newList);
                         }
