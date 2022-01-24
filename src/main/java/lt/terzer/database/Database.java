@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Database<T extends DatabaseSavable> {
 
@@ -225,14 +226,24 @@ public class Database<T extends DatabaseSavable> {
         return stringBuilder.toString();
     }
 
-    private String namesToString(List<String> names){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0;i < names.size();i++){
-            stringBuilder.append("'").append(names.get(i)).append("'");
-            if(i+1 != names.size())
-                stringBuilder.append(", ");
+    public boolean remove(T... obj){
+        return remove(Arrays.asList(obj));
+    }
+
+    public boolean remove(List<T> list){
+        if(list.isEmpty()){
+            return true;
         }
-        return stringBuilder.toString();
+        return removeQuery("id in (" + idsToString(list.stream()
+                .map(DatabaseSavable::getId).collect(Collectors.toList())) + ")");
+    }
+
+    public boolean remove(String where){
+        return removeQuery(where);
+    }
+
+    public boolean save(T... obj){
+        return save(Arrays.asList(obj));
     }
 
     public boolean save(List<T> list) {
